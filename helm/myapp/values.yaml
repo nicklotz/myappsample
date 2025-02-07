@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: nicklotz/myapp
   pullPolicy: IfNotPresent
-  tag: "v2"
+  tag: <+artifact.image>
 
 imagePullSecrets: []
 nameOverride: ""
