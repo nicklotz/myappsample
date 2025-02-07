@@ -3,3 +3,25 @@ service:
   identifier: myapp
   orgIdentifier: default
   projectIdentifier: myapp
+  serviceDefinition:
+    spec:
+      manifests:
+        - manifest:
+            identifier: myapphelmchart
+            type: HelmChart
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: mygithubconnector
+                  gitFetchType: Branch
+                  folderPath: helm/myapp
+                  branch: main
+              subChartPath: ""
+              valuesPaths:
+                - values.yaml
+              skipResourceVersioning: false
+              enableDeclarativeRollback: false
+              helmVersion: V3
+              fetchHelmChartMetadata: false
+    type: Kubernetes
