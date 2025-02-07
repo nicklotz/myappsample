@@ -1,0 +1,14 @@
+inputSet:
+  name: mypipelineinputs
+  identifier: mypipelineinputs
+  orgIdentifier: default
+  projectIdentifier: myapp
+  pipeline:
+    identifier: mycicdpipeline
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
