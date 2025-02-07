@@ -35,4 +35,10 @@ pipeline:
                     connectorRef: mydockerhubconnector
                     repo: nicklotz/myapp
                     tags:
-                      - <+trigger.sourceBranch>-<+trigger.commitSha>
+                      - <+pipeline.variables.buildVersion>
+  variables:
+    - name: buildVersion
+      type: String
+      description: ""
+      required: true
+      value: <+input>
