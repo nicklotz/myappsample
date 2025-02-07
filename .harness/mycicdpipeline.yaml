@@ -37,37 +37,40 @@ pipeline:
                     tags:
                       - <+pipeline.variables.buildVersion>
     - stage:
-        name: prod deploy
-        identifier: prod_deploy
+        name: prod
+        identifier: prod
         description: ""
         type: Deployment
         spec:
           deploymentType: Kubernetes
+          gitOpsEnabled: true
           service:
-            serviceRef: myapp
-          environment:
-            environmentRef: prod
-            deployToAll: false
-            infrastructureDefinitions:
-              - identifier: myprodinfra
+            serviceRef: myappservice
           execution:
             steps:
               - step:
-                  name: Rollout Deployment
-                  identifier: rolloutDeployment
-                  type: K8sRollingDeploy
-                  timeout: 10m
+                  type: UpdateGitOpsApp
+                  name: UpdateGitOpsApp_1
+                  identifier: UpdateGitOpsApp_1
                   spec:
-                    skipDryRun: false
-                    pruningEnabled: false
-            rollbackSteps:
-              - step:
-                  name: Rollback Rollout Deployment
-                  identifier: rollbackRolloutDeployment
-                  type: K8sRollingRollback
+                    targetRevision: main
+                    helm:
+                      valueFiles:
+                        - values.yaml
+                      parameters:
+                        - name: replicaCount
+                          value: "5"
+                      fileParameters: []
+                    applicationName: myapp
+                    agentId: mygitopsagent
                   timeout: 10m
-                  spec:
-                    pruningEnabled: false
+            rollbackSteps: []
+          environment:
+            environmentRef: prod
+            deployToAll: false
+            gitOpsClusters:
+              - identifier: mygitonpscluster
+                agentIdentifier: mygitopsagent
         tags: {}
         failureStrategies:
           - onFailure:
