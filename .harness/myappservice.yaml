@@ -1,0 +1,5 @@
+service:
+  name: myappservice
+  identifier: myappservice
+  orgIdentifier: default
+  projectIdentifier: myapp
