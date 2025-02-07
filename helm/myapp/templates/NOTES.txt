@@ -1,0 +1,2 @@
+You can access My App by connecting to localhost at port 80
+E.g. curl http://localhost:80
