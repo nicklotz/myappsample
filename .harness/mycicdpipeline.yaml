@@ -1,0 +1,38 @@
+pipeline:
+  name: mycicdpipeline
+  identifier: mycicdpipeline
+  projectIdentifier: myapp
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: mygithubconnector
+        build: <+input>
+  stages:
+    - stage:
+        name: CI
+        identifier: CI
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: KubernetesDirect
+            spec:
+              connectorRef: myk8connector
+              namespace: build
+              automountServiceAccountToken: true
+              nodeSelector: {}
+              os: Linux
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildandPushMyApp
+                  identifier: BuildandPushMyApp
+                  spec:
+                    connectorRef: mydockerhubconnector
+                    repo: nicklotz/myapp
+                    tags:
+                      - <+trigger.sourceBranch>-<+trigger.commitSha>
