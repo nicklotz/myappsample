@@ -1,5 +1,6 @@
 inputSet:
   name: mypipelineinputs
+  tags: {}
   identifier: mypipelineinputs
   orgIdentifier: default
   projectIdentifier: myapp
@@ -12,3 +13,7 @@ inputSet:
             type: branch
             spec:
               branch: <+trigger.branch>
+    variables:
+      - name: buildVersion
+        type: String
+        value: <+codebase.commitSha>
