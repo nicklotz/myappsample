@@ -27,6 +27,35 @@ pipeline:
               os: Linux
           execution:
             steps:
+              - parallel:
+                  - step:
+                      type: Bandit
+                      name: Bandit
+                      identifier: Bandit
+                      spec:
+                        mode: orchestration
+                        config: default
+                        target:
+                          type: repository
+                          detection: auto
+                        advanced:
+                          log:
+                            level: info
+                          fail_on_severity: low
+                  - step:
+                      type: Gitleaks
+                      name: Gitleaks
+                      identifier: Gitleaks
+                      spec:
+                        mode: orchestration
+                        config: default
+                        target:
+                          type: repository
+                          detection: auto
+                        advanced:
+                          log:
+                            level: info
+                          fail_on_severity: low
               - step:
                   type: BuildAndPushDockerRegistry
                   name: BuildandPushMyApp
