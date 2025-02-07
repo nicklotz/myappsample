@@ -24,4 +24,15 @@ service:
               enableDeclarativeRollback: false
               helmVersion: V3
               fetchHelmChartMetadata: false
+      artifacts:
+        primary:
+          primaryArtifactRef: <+input>
+          sources:
+            - spec:
+                connectorRef: mydockerhubconnector
+                imagePath: nicklotz/myapp
+                tag: <+input>
+                digest: ""
+              identifier: myappartifact
+              type: DockerRegistry
     type: Kubernetes
